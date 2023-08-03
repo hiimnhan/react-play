@@ -1,9 +1,10 @@
-import { submit } from "common/services/request";
-import { FetchPlaysByID } from "common/services/request/query/fetch-plays";
-import { toKebabCase } from "common/services/string";
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import "./play-created.scss";
+import { submit } from 'common/services/request';
+import { FetchPlaysByID } from 'common/services/request/query/fetch-plays';
+import { toKebabCase } from 'common/services/string';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import './play-created.scss';
+import { CREATE_PLAY_DOC_LINK } from 'constants';
 
 const PlayCreated = () => {
   const { playid } = useParams();
@@ -20,10 +21,11 @@ const PlayCreated = () => {
   }, [playid]);
 
   if (loading) {
-    return <div></div>;
+    return <div />;
   }
+
   return (
-    <div className="w-full h-full flex flex-col justify-center items-center create-plays-wrapper">
+    <div className="w-full flex flex-col items-center create-plays-wrapper">
       <div>
         <span className="title-primary">
           <strong>{play.name}</strong> Created
@@ -34,37 +36,46 @@ const PlayCreated = () => {
         <div>
           <ol className="ordered-list">
             <li className="ordered-nav--link">
-              Fork{" "}
+              Fork{' '}
               <a
                 className="play-create-anchor"
                 href="https://github.com/reactplay/react-play"
-                target="_blank"
                 rel="noopener noreferrer"
+                target="_blank"
               >
                 reactplay
-              </a>{" "}
+              </a>{' '}
               repository
             </li>
             <li>Open command line console of your choice</li>
             <li>
-              Run following command on your{" "}
+              Run following command on your{' '}
               <a
                 className="play-create-anchor"
                 href="https://github.com/reactplay/react-play"
-                target="_blank"
                 rel="noopener noreferrer"
+                target="_blank"
               >
                 reactplay
-              </a>{" "}
+              </a>{' '}
               project folder
-              <code className="console-wrapper">
-                npx create-react-play -c {play.id}
-              </code>
+              <code className="console-wrapper">npx create-react-play -c {play.id}</code>
+              <strong>Note:</strong>If the play folder{' '}
+              <i>
+                <b>&lt;reactplay_directory&gt;/src/plays/&lt;your_play_name&gt;</b>
+              </i>{' '}
+              remain empty after running above command that means you might be in some older version
+              of the package. Use{' '}
+              <i>
+                <b>@latest</b>
+              </i>{' '}
+              in that case
+              <code className="console-wrapper">npx create-react-play@latest -c {play.id}</code>
             </li>
             <li>
               Install dependencies
               <code className="console-wrapper">
-                npm install <br /># OR <br /> yarn{" "}
+                npm install <br /># OR <br /> yarn{' '}
               </code>
             </li>
             <li>
@@ -74,22 +85,22 @@ const PlayCreated = () => {
               </code>
             </li>
             <li>
-              Find your play under{" "}
+              Find your play under{' '}
               <code className="console-wrapper">
                 &lt;reactplay-directory&gt;/src/plays/{toKebabCase(play.name)}
               </code>
             </li>
           </ol>
           <div>
-            Refer{" "}
+            Refer{' '}
             <a
               className="play-create-anchor"
-              href="https://github.com/reactplay/react-play/blob/main/CREATE-PLAY.md"
-              target="_blank"
+              href={CREATE_PLAY_DOC_LINK}
               rel="noopener noreferrer"
+              target="_blank"
             >
               play creation guide
-            </a>{" "}
+            </a>{' '}
             for more information
           </div>
           <div>Happy coding!!</div>

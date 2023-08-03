@@ -9,13 +9,14 @@ export function FetchPlaysByID(id) {
     clause: {
       conditions: [
         {
-          field: "id",
-          operator: "eq",
-          value: id,
-        },
-      ],
-    },
+          field: 'id',
+          operator: 'eq',
+          value: id
+        }
+      ]
+    }
   };
+
   return payload;
 }
 
@@ -24,48 +25,59 @@ export function FetchPlaysBySlugAndUser(playslug, username) {
 
   payload.where = {
     clause: {
-      operator: "and",
+      operator: 'and',
       conditions: [
         {
-          field: "slug",
-          operator: "ilike",
+          field: 'slug',
+          operator: 'ilike',
           value: playslug,
-          type: "string",
+          type: 'string'
         },
         {
-          field: "github",
-          operator: "ilike",
+          field: 'github',
+          operator: 'ilike',
           value: username,
-          type: "string",
-        },
-      ],
-    },
+          type: 'string'
+        }
+      ]
+    }
   };
+
+  return payload;
+}
+
+export function FetchPlaysByFilter(where_clause) {
+  const payload = { ...BasiFetchParam };
+  if (where_clause) {
+    payload.where = where_clause;
+  }
+
   return payload;
 }
 
 export const BasiFetchParam = {
-  display: "Simple fetch play",
-  name: "Fetch_Plays",
-  function: "plays",
+  display: 'Simple fetch play',
+  name: 'Fetch_Plays',
+  function: 'plays',
   write: false,
   return: [
-    "component",
-    "cover",
-    "description",
-    "featured",
-    "dev_mode",
-    "github",
-    "language",
-    { play_like: ["liked", "play_id", "user_id"] },
-    "name",
-    "slug",
-    { user: ["id", "displayName", "avatarUrl"] },
-    "created_at",
+    'component',
+    'cover',
+    'description',
+    'featured',
+    'dev_mode',
+    'github',
+    'language',
+    { play_like: ['liked', 'play_id', 'user_id'] },
+    'name',
+    'slug',
+    { user: ['id', 'displayName', 'avatarUrl', 'email'] },
+    'created_at',
+    { play_tags: ['tag_id'] }
   ],
   orderBy: {
-    created_at: "desc",
-  },
+    created_at: 'desc'
+  }
 };
 
 export const DetailedFetchParam = {
@@ -73,12 +85,12 @@ export const DetailedFetchParam = {
   ...{
     return: [
       ...BasiFetchParam.return,
-      "path",
-      "blog",
-      "id",
-      { level: ["name"] },
-      "video",
-      { play_tags: { tag: ["name"] } },
-    ],
-  },
+      'path',
+      'blog',
+      'id',
+      { level: ['name'] },
+      'video',
+      { play_tags: { tag: ['name'] } }
+    ]
+  }
 };

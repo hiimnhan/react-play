@@ -1,18 +1,18 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { BsTwitter, BsGithub } from "react-icons/bs";
-import { FaLightbulb } from "react-icons/fa";
-import { BiMoney } from "react-icons/bi";
-import { IoAddSharp, IoShareSocial, IoHeartSharp } from "react-icons/io5";
-import { MdManageSearch, MdClose } from "react-icons/md";
-import SocialShare from "common/components/SocialShare";
-import { GoX } from "react-icons/go";
-import { Modal, Box, Typography, Menu } from "@mui/material";
-import { useContext } from "react";
-import { SearchContext } from "common/search/search-context";
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { BsTwitter, BsGithub, BsTrophyFill } from 'react-icons/bs';
+import { FaLightbulb } from 'react-icons/fa';
+import { BiMoney } from 'react-icons/bi';
+import { IoAddSharp, IoShareSocial, IoHeartSharp } from 'react-icons/io5';
+import { MdManageSearch, MdClose, MdEvent } from 'react-icons/md';
+import SocialShare from 'common/components/SocialShare';
+import { GoX } from 'react-icons/go';
+import { Modal, Box, Typography, Menu } from '@mui/material';
+import { useSearchContext } from 'common/search/search-context';
+import { CREATE_PLAY_DOC_LINK, UMAMI_EVENTS } from 'constants';
 
 const HeaderNav = ({ showBrowse }) => {
-  const { showShareModal, setShowShareModal } = useContext(SearchContext);
+  const { showShareModal, setShowShareModal } = useSearchContext();
 
   const [showToggleMenu, setShowToggleMenu] = useState(false);
 
@@ -34,39 +34,35 @@ const HeaderNav = ({ showBrowse }) => {
       <Modal open={showShareModal} onClose={modalClose}>
         <Box className="modal-share">
           <Typography
-            sx={{
-              display: "block",
-              textAlign: "center",
-              py: 2,
-              fontFamily: "var(--ff-default)",
-            }}
             component="div"
+            sx={{
+              display: 'block',
+              textAlign: 'center',
+              py: 2,
+              fontFamily: 'var(--ff-default)'
+            }}
             variant="subtitle1"
           >
             Share about ReactPlay
           </Typography>
-          <SocialShare />
-          <Box
-            component="div"
-            sx={{ mt: 4, display: "flex", justifyContent: "flex-end" }}
-          >
+          <SocialShare showFB showLinkedin showReddit showTwitter />
+          <Box component="div" sx={{ mt: 4, display: 'flex', justifyContent: 'flex-end' }}>
             <button className="modal-share-close" onClick={modalClose}>
-              <GoX size="16px" className="icon" />{" "}
-              <span className="sr-only">Cancel</span>
+              <GoX className="icon" size="16px" /> <span className="sr-only">Cancel</span>
             </button>
           </Box>
         </Box>
       </Modal>
       <button
+        aria-expanded={showToggleMenu}
+        aria-label="Toggle menu"
         className="navbar-toggler"
         type="button"
         onClick={() => setShowToggleMenu(true)}
       >
-        <span className="navbar-toggler-icon"></span>
+        <span className="navbar-toggler-icon" />
       </button>
-      <div
-        className={showToggleMenu ? "navbar-collapse show" : "navbar-collapse"}
-      >
+      <div className={showToggleMenu ? 'navbar-collapse show' : 'navbar-collapse'}>
         <ul className="header-links" data-testid="header-links-container">
           <li className="menu-closer">
             <button
@@ -78,37 +74,49 @@ const HeaderNav = ({ showBrowse }) => {
               <span className="sr-only">Close</span>
             </button>
           </li>
+
           {showBrowse && !showToggleMenu && (
             <li>
               <Link
-                to="/plays"
                 className="app-header-btn app-header-btn--secondary"
                 data-testid="browse-btn"
+                to="/plays"
               >
                 <MdManageSearch className="icon" />
                 <span className="btn-label">Browse</span>
               </Link>
             </li>
           )}
+          <li>
+            <a
+              className="app-header-btn app-header-btn--secondary"
+              data-testid="events-btn"
+              href="https://hustles.reactplay.io/"
+              target="_blank"
+            >
+              <MdEvent className="icon" />
+              <span className="btn-label">Events</span>
+            </a>
+          </li>
           <li className="menu-spacer">
-            {process.env.NODE_ENV === "development" ? (
+            {process.env.NODE_ENV === 'development' ? (
               <a
-                href="/plays/create"
-                rel="noopener noreferrer"
                 className="app-header-btn app-header-btn--primary"
                 data-testid="create-btn"
+                href="/plays/create"
+                rel="noopener noreferrer"
               >
                 <IoAddSharp className="icon" />
                 <span className="btn-label">Create</span>
-                <span className="create-button-badge">beta</span>
               </a>
             ) : (
               <a
-                href="https://github.com/reactplay/react-play/blob/main/CREATE-PLAY.md"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="app-header-btn app-header-btn--primary umami--click--create-play"
+                className="app-header-btn app-header-btn--primary"
                 data-testid="create-btn"
+                data-umami-event={UMAMI_EVENTS.CREATE_PLAY_BUTTON}
+                href={CREATE_PLAY_DOC_LINK}
+                rel="noopener noreferrer"
+                target="_blank"
               >
                 <IoAddSharp className="icon" />
                 <span className="btn-label">Create</span>
@@ -117,83 +125,97 @@ const HeaderNav = ({ showBrowse }) => {
           </li>
           <li>
             <Link
-              to="/ideas"
+              className="app-header-btn app-header-btn--default"
+              data-testid="leaderboard-btn"
+              title="Leader Board"
+              to="/leaderboard"
+            >
+              <BsTrophyFill className="icon idea-icon" />
+              <span className="btn-label">Leader Board</span>
+            </Link>
+          </li>
+          <li>
+            <Link
               className="app-header-btn app-header-btn--default"
               data-testid="ideas-btn"
+              title="Play Ideas"
+              to="/ideas"
             >
-              <FaLightbulb className="icon" />
+              <FaLightbulb className="icon idea-icon" />
               <span className="btn-label">Idea</span>
             </Link>
           </li>
           <li>
             <a
-              href="https://github.com/reactplay/react-play"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="app-header-btn app-header-btn--default umami--click--github"
+              className="app-header-btn app-header-btn--default"
               data-testid="github-btn"
+              data-umami-event="github-button"
+              href="https://github.com/reactplay/react-play"
+              rel="noopener noreferrer"
+              target="_blank"
+              title="GitHub page"
             >
-              <BsGithub className="icon" />
+              <BsGithub className="icon github-icon" />
               <span className="btn-label">GitHub</span>
             </a>
           </li>
           <li>
             <a
-              href="https://twitter.com/reactplayio"
-              target="_blank"
-              rel="noopener noreferrer"
               className="app-header-btn app-header-btn--default"
               data-testid="twitter-btn"
+              href="https://twitter.com/reactplayio"
+              rel="noopener noreferrer"
+              target="_blank"
+              title="Twitter Page"
             >
-              <BsTwitter className="icon" />
+              <BsTwitter className="icon twitter-icon" />
               <span className="btn-label">Twitter</span>
             </a>
           </li>
           <li>
             <button
               className="app-header-btn app-header-btn--default"
-              onClick={handleClick}
               data-testid="share-btn"
+              title="Show love"
+              onClick={handleClick}
             >
-              <IoHeartSharp className="icon" />
+              <IoHeartSharp className="icon share-icon" />
               <span className="btn-label">Share</span>
             </button>
           </li>
           <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-            <Box sx={{ p: 4, pt: 2, borderRadius: 2, width: "360px" }}>
+            <Box sx={{ p: 4, pt: 2, borderRadius: 2, width: '360px' }}>
               <h3 className="section-title">Show Love</h3>
               <button
+                className="my-2 btn-default-light"
+                href="#"
                 onClick={() => {
                   modalClose();
                   handleClose();
                 }}
-                className="my-2 btn-default-light"
-                href="#"
               >
                 <IoShareSocial className="icon" />
                 <span className="btn-label">Share about ReactPlay</span>
               </button>
               <p className="mt-2 mb-8 leading-tight">
                 <small>
-                  Enjoying ReactPlay? Please help us spreading the word. You can
-                  share about ReactPlay on any of your favorite social media
-                  platforms.
+                  Enjoying ReactPlay? Please help us spreading the word. You can share about
+                  ReactPlay on any of your favorite social media platforms.
                 </small>
               </p>
               <a
-                onClick={handleClose}
-                target="_blank"
-                rel="noopener noreferrer"
                 className="my-2 btn-secondary-light"
                 href="https://github.com/sponsors/reactplay"
+                rel="noopener noreferrer"
+                target="_blank"
+                onClick={handleClose}
               >
                 <BiMoney className="icon" />
                 <span className="btn-label">Sponsor ReactPlay</span>
               </a>
               <p className="mt-2 mb-4 leading-tight">
                 <small>
-                  Your support means a lot to us. Want to be our Sponsor and
-                  support us?
+                  Your support means a lot to us. Want to be our Sponsor and support us?
                 </small>
               </p>
             </Box>

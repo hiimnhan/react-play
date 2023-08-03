@@ -4,15 +4,15 @@ So , its kinda fun type app it will give details of a specific pokemon on search
 
 ## Play Demographic
 
-- Language: js
+- Language: ts
 - Level: Intermediate
 
 ## Creator Information
 
 - User: yung-coder
 - Gihub Link: https://github.com/yung-coder
-- Blog: 
-- Video: 
+- Blog:
+- Video:
 
 ## Implementation Details
 

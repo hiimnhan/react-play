@@ -45,18 +45,12 @@ pre {
   position: absolute;
   right: 0.5%;
 }
-.context-with-real-usecases
-  .context-info-slider
-  .slide-btn-group
-  .slide-btn-icon {
+.context-with-real-usecases .context-info-slider .slide-btn-group .slide-btn-icon {
   font-size: 32px;
   background-color: #e5e7eb;
   border-radius: 50%;
 }
-.context-with-real-usecases
-  .context-info-slider
-  .slide-btn-group
-  .slide-btn-icon:hover {
+.context-with-real-usecases .context-info-slider .slide-btn-group .slide-btn-icon:hover {
   background: #fff;
 }
 
@@ -182,7 +176,7 @@ pre {
 }
 .cuisine-modal .modal-container .btn-group {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
 }
 .cuisine-modal .modal-container .btn-group .btn-close {
   background-color: rgb(234, 231, 231);

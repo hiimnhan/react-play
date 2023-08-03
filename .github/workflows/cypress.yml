@@ -6,7 +6,9 @@ on:
 
   pull_request_target:
     types: [labeled, opened, synchronize, reopened]
-
+concurrency:
+  group: environment-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
